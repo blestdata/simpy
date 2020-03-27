@@ -129,3 +129,48 @@ def calculate_wait_time(wait_times):
     seconds = frac_minutes*60
     # can use round() if we want
     return minutes, seconds
+
+# Choosing Parameters: User Input Function Definition
+#     if all(str(i).isdigit() for i in params):  # Check input is valid
+#         params = [int(x) for x in params]
+def get_user_input():
+    while True:
+        try:
+            num_cashiers = int(input("Input the number of Cashiers: "))
+            if num_cashiers <= 0:
+                print("Please give a positive value for Cashiers.")
+                continue
+            num_servers = int(input("Input the number of Servers: "))
+            if num_servers <= 0:
+                print("Please give a positive value of Servers.")
+                continue
+            num_ushers = int(input("Input the numbers of Ushers: "))
+            if num_ushers <= 0:
+                print("Please give a positive value of Ushers.")
+                continue
+        except :
+            print("We can only take integer values for cashiers, servers and ushers.")
+        else:
+            break
+    params = [num_cashiers,num_servers,num_ushers]
+    return params
+
+# The last function to create is main().
+# This will ensure your script runs in the proper order  when you execute it on the command line.
+def main():
+    # Setup
+    # random.seed(42)
+    num_cashiers, num_servers, num_ushers = get_user_input()
+
+    # Run the simulation
+    env = simpy.Environment()
+    env.process(run_theater(env, num_cashiers, num_servers, num_ushers))
+    print("Running the Simulation.....")
+    env.run(until=90)
+
+    # View the result
+    minutes, seconds = calculate_wait_time(wait_times)
+    print("The average wait times is {} minutes and {} seconds".format(minutes,seconds))
+
+if __name__ == "__main__":
+    main()
