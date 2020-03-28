@@ -92,10 +92,11 @@ def go_to_movies(env, moviegoer, theater):
     # but this would make your code very repetitive, which violates the Don't Repeat Yourself principle.
     wait_times.append(env.now - arrival_time)
 
+
 # Define a function to run the simulation. run_theater() will be responsible for creating an instance of a theater
 # and generating moviegoers until the simulation stops. The first thing this function should do is create an instance
 # of a theater:
-def run_theater(env, num_cashiers, num_servers, num_ushers ):
+def run_theater(env, num_cashiers, num_servers, num_ushers):
     theater = Theater(env, num_cashiers, num_servers, num_ushers)
 
     # You also might want to start your simulation with a few moviegoers waiting at the theater.
@@ -114,6 +115,7 @@ def run_theater(env, num_cashiers, num_servers, num_ushers ):
         moviegoer += 1
         env.process(go_to_movies(env, moviegoer, theater))
 
+
 # At this point, you should have a list wait_times that contains the total amount of time it took each moviegoer to
 # make it to their seat. Now you’ll want to define a function to help calculate the average time a moviegoer spends
 # from the time they arrive to the time they finish checking their ticket. get_average_wait_time() does just this:
@@ -121,14 +123,16 @@ def get_average_wait_time(wait_times):
     average_wait = statistics.mean(wait_times)
     return average_wait
 
+
 # Since you’re creating a script that will be used by the movie theater manager, you’ll want to make sure that the
 # output can be read easily by the user.
 def calculate_wait_time(wait_times):
     average_wait = statistics.mean(wait_times)
-    minutes, frac_minutes = divmod(average_wait,1)
-    seconds = frac_minutes*60
+    minutes, frac_minutes = divmod(average_wait, 1)
+    seconds = frac_minutes * 60
     # can use round() if we want
     return minutes, seconds
+
 
 # Choosing Parameters: User Input Function Definition
 #     if all(str(i).isdigit() for i in params):  # Check input is valid
@@ -148,12 +152,13 @@ def get_user_input():
             if num_ushers <= 0:
                 print("Please give a positive value of Ushers.")
                 continue
-        except :
+        except:
             print("We can only take integer values for cashiers, servers and ushers.")
         else:
             break
-    params = [num_cashiers,num_servers,num_ushers]
+    params = [num_cashiers, num_servers, num_ushers]
     return params
+
 
 # The last function to create is main().
 # This will ensure your script runs in the proper order  when you execute it on the command line.
@@ -170,7 +175,8 @@ def main():
 
     # View the result
     minutes, seconds = calculate_wait_time(wait_times)
-    print("The average wait times is {} minutes and {} seconds".format(minutes,seconds))
+    print("The average wait times is {} minutes and {} seconds".format(minutes, seconds))
+
 
 if __name__ == "__main__":
     main()
